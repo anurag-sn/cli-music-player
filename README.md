@@ -16,14 +16,15 @@ This repository provides a small shell script that lets you search for and strea
 
 - Bash (POSIX-compatible shell)
 - mpv (media player)
-- yt-dlp (download and URL resolver for YouTube and other sites)
+- yt-dlp (stream URL extractor and YouTube search tool)
+- jq (JSON processor for parsing search results)
 - curl or wget (optional, for some helper commands)
 - (Optional) fzf for interactive search/selection
 
 Install on Debian/Ubuntu:
 ```bash
 sudo apt update
-sudo apt install -y mpv curl  # or wget
+sudo apt install -y mpv jq curl  # or wget
 python3 -m pip install --user -U yt-dlp
 ```
 
@@ -59,20 +60,18 @@ sudo ln -s "$(pwd)/cli-music-player.sh" /usr/local/bin/cli-music-player
 # or copy the script to ~/bin/
 ```
 
-Adjust the file name above to match the actual script filename in this repo (e.g., `cli-music-player`, `play.sh`, etc.).
-
 ## Basic usage
 
 There are two common usage patterns: using the script to handle search or providing a direct URL.
 
-Play a YouTube URL:
-```bash
-./cli-music-player.sh "https://www.youtube.com/watch?v=VIDEO_ID"
-```
-
-Play by search query (script resolves the first/best match):
+Search and play music by query (displays multiple results for selection):
 ```bash
 ./cli-music-player.sh "Billie Eilish bury a friend"
+```
+
+Or simply run without arguments for an interactive search prompt:
+```bash
+./cli-music-player.sh
 ```
 
 If you installed the script to your PATH:
@@ -80,10 +79,7 @@ If you installed the script to your PATH:
 cli-music-player "lofi hip hop"
 ```
 
-If the script accepts flags, run the script with `--help` or `-h` to see available options:
-```bash
-./cli-music-player.sh --help
-```
+You can run it with a search query as an argument or without arguments for an interactive prompt.
 
 ## Screenshots
 
@@ -105,10 +101,12 @@ Below are screenshots showing the script in action. The images are included in t
 
 Typical steps the script performs:
 
-1. If the input is a plain URL, pass it to yt-dlp/mpv directly.
-2. If the input looks like a search query, use yt-dlp (or YouTube search via its extractor) to find a matching video URL.
-3. Use yt-dlp to resolve a streaming URL (or print direct URL) and hand that to mpv.
-4. mpv streams the audio (with `--no-video`), providing low-latency playback without downloading the full file.
+1. Accept a search query (as an argument or via interactive prompt).
+2. Use yt-dlp with YouTube search extractor to find top 5 matching videos.
+3. Display the results with titles and uploaders for user selection.
+4. Allow user to select one or more songs (or all) to play.
+5. Pass the selected YouTube URLs to mpv for streaming.
+6. mpv streams the audio (with `--no-video`), providing low-latency playback without downloading the full file.
 
 Common standalone commands used to stream without the script:
 - Use mpv directly with a YouTube URL (mpv will call yt-dlp internally if compiled that way):
