@@ -3,7 +3,7 @@ A lightweight Bash script to stream YouTube music directly in the terminal using
 
 ## Aternos server control script
 
-This repository also includes `/tmp/workspace/anurag-sn/cli-music-player/aternos.sh` to manage an Aternos server:
+This repository also includes `./aternos.sh` to manage an Aternos server:
 
 - `status` → show current status
 - `on` → start server
@@ -24,9 +24,9 @@ This repository also includes `/tmp/workspace/anurag-sn/cli-music-player/aternos
 ### Usage
 
 ```bash
-chmod +x /tmp/workspace/anurag-sn/cli-music-player/aternos.sh
+chmod +x ./aternos.sh
 ATERNOS_SESSION="..." \
 ATERNOS_SERVER="..." \
 ATERNOS_SEC="..." \
-/tmp/workspace/anurag-sn/cli-music-player/aternos.sh status
+./aternos.sh status
 ```
